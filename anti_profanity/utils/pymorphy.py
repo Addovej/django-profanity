@@ -15,7 +15,7 @@ class PymorphyProc(object):
 
     @staticmethod
     def detect(text):
-        return [w for w in PymorphyProc._gen(text)] if text else []
+        return bool([w for w in PymorphyProc._gen(text)]) if text else False
 
     @staticmethod
     def replace(text, repl='[censored]'):

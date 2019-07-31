@@ -49,7 +49,7 @@ class RegexProc(object):
 
     @staticmethod
     def detect(text):
-        return RegexProc.regex.findall(text) if text else []
+        return bool(RegexProc.regex.findall(text))
 
     @staticmethod
     def replace(text, repl='[censored]'):
