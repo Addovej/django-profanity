@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+ipython = "*"
+
+[packages]
+Django = ">=2.0"
+tqdm = ">=4.32.2"
+pymorphy2 = ">=0.8"
+
+[requires]
+python_version = "3.6"
