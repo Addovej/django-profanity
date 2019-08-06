@@ -49,6 +49,8 @@ class RegexProc(object):
 
     @staticmethod
     def detect(text):
+        if not text:
+            return False
         return bool(RegexProc.regex.findall(text))
 
     @staticmethod
