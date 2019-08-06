@@ -31,4 +31,5 @@ class ProfanityModerateModel(BaseModel):
                 if not banned:
                     banned |= PymorphyProc.detect(field_value)
 
-            self.profanity_banned = banned
+            if banned:
+                self.profanity_banned = True
