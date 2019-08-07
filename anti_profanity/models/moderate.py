@@ -26,7 +26,8 @@ class ProfanityModerateModel(BaseModel):
 
             for field in self._moderated_fields:
                 field_value = getattr(self, field, None)
-                banned |= RegexProc.detect(field_value)
+                # Temporary removed regex method
+                # banned |= RegexProc.detect(field_value)
                 # It's just for reduce database queries
                 if not banned:
                     banned |= PymorphyProc.detect(field_value)
