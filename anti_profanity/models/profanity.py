@@ -2,14 +2,12 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from pymorphy2 import MorphAnalyzer
 
-from .base import BaseModel
-
 __all__ = ['Profanity']
 
 morph = MorphAnalyzer()
 
 
-class Profanity(BaseModel):
+class Profanity(models.Model):
     word = models.CharField(
         verbose_name=_('Normalizes form of profanity word'),
         max_length=64,
@@ -24,9 +22,10 @@ class Profanity(BaseModel):
     def __str__(self):
         return self.word
 
-    def pre_instance_save(self):
+    def save(self, *args, **kwargs):
         self.word = self.word.strip().lower()
         try:
             self.word = morph.parse(self.word)[0].normal_form
         except IndexError:
             pass
+        super().save(*args, **kwargs)

@@ -3,12 +3,10 @@ from django.utils.translation import ugettext_lazy as _
 
 from anti_profanity.utils import PymorphyProc, RegexProc
 
-from .base import BaseModel
-
 __all__ = ['ProfanityModerateModel']
 
 
-class ProfanityModerateModel(BaseModel):
+class ProfanityModerateModel(models.Model):
     _moderated_fields = []
 
     profanity_banned = models.BooleanField(
@@ -20,7 +18,7 @@ class ProfanityModerateModel(BaseModel):
     class Meta:
         abstract = True
 
-    def pre_instance_save(self):
+    def save(self, *args, **kwargs):
         if self._moderated_fields:
             banned = False
 
@@ -34,3 +32,5 @@ class ProfanityModerateModel(BaseModel):
 
             if banned:
                 self.profanity_banned = True
+        super().save(*args, **kwargs)
+
