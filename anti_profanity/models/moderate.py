@@ -8,6 +8,7 @@ __all__ = ['ProfanityModerateModel']
 
 class ProfanityModerateModel(models.Model):
     _moderated_fields = []
+    _lang_filed = ''
 
     profanity_banned = models.BooleanField(
         verbose_name=_('Is profanity banned'),
@@ -28,7 +29,10 @@ class ProfanityModerateModel(models.Model):
                 # banned |= RegexProc.detect(field_value)
                 # It's just for reduce database queries
                 if not banned:
-                    banned |= PymorphyProc.detect(field_value)
+                    banned |= PymorphyProc.detect(
+                         field_value,
+                        getattr(self, self._lang_filed, None)
+                    )
 
             if banned:
                 self.profanity_banned = True

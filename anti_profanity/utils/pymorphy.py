@@ -14,8 +14,8 @@ class PymorphyProc(object):
     morph = pymorphy2.MorphAnalyzer()
 
     @staticmethod
-    def detect(text):
-        return bool([w for w in PymorphyProc._gen(text)]) if text else False
+    def detect(text, lang=None):
+        return bool([w for w in PymorphyProc._gen(text, lang)]) if text else False
 
     @staticmethod
     def replace(text, repl='[censored]'):
@@ -33,8 +33,8 @@ class PymorphyProc(object):
         return text
 
     @staticmethod
-    def _gen(text):
-        words = PymorphyProc.get_words()
+    def _gen(text, lang=None):
+        words = PymorphyProc.get_words(lang)
         for word in re.findall(word_pattern, text):
             if len(word) < 3:
                 continue
@@ -43,5 +43,10 @@ class PymorphyProc(object):
                 yield word
 
     @staticmethod
-    def get_words():
+    def get_words(lang=None):
+        if lang:
+            return Profanity.objects.filter(
+                lang=lang
+            ).values_list('word', flat=True)
+
         return Profanity.objects.values_list('word', flat=True)
