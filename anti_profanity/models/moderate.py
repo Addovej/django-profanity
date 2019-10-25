@@ -22,19 +22,18 @@ class ProfanityModerateModel(models.Model):
     def save(self, *args, **kwargs):
         if self._moderated_fields:
             banned = False
+            lang = getattr(self, self._lang_filed, 'en')
 
             for field in self._moderated_fields:
                 field_value = getattr(self, field, None)
-                # Temporary removed regex method
-                # banned |= RegexProc.detect(field_value)
-                # It's just for reduce database queries
+
+                banned |= RegexProc.detect(field_value, lang)
                 if not banned:
                     banned |= PymorphyProc.detect(
-                         field_value,
-                        getattr(self, self._lang_filed, None)
+                        field_value,
+                        lang
                     )
 
             if banned:
                 self.profanity_banned = True
         super().save(*args, **kwargs)
-
