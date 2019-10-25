@@ -7,5 +7,5 @@ from anti_profanity.models import Profanity
 class ProfanityAdmin(admin.ModelAdmin):
     save_on_top = True
     save_on_bottom = False
-    list_display = ('id', 'word')
+    list_display = ('id', 'word', 'lang')
     search_fields = ['word']

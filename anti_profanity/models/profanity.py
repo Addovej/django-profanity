@@ -14,6 +14,12 @@ class Profanity(models.Model):
         unique=True,
         db_index=True,
     )
+    lang = models.CharField(
+        max_length=5,
+        db_index=True,
+        null=True,
+        blank=True
+    )
 
     class Meta:
         verbose_name = _('Profanity')
